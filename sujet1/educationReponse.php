@@ -1,3 +1,49 @@
+<?php 
+if (isset($_POST['functionQuestion']));
+
+$key = $_POST['functionQuestion'];
+
+$key2 = substr($key, 1);
+
+function countQuestion($Q){
+    $question = "q".$Q;
+    $url = "https://www.data.corsica/api/records/1.0/search/?dataset=barometre-tic-2016-donnees-brutes-base-education";
+    $json = file_get_contents($url);
+    $parse = json_decode($json);
+
+    $array = $parse->records;
+    $response= [];
+    $i=0;
+    foreach($array as $value){
+        $response[$i] = $value->fields->$question;
+        $i++;
+    }
+    asort($response);
+
+    $result = array();
+    $prev_value = array('value' => null, 'amount' => null);
+
+foreach ($response as $val) {
+    if ($prev_value['value'] != $val) {
+        unset($prev_value);
+        $prev_value = array('value' => $val, 'amount' => 0);
+        $result[] =& $prev_value;
+    }
+
+    $prev_value['amount']++;
+}
+//var_dump($prev_value);
+
+return $result;
+
+}
+
+$array1 = countQuestion($key2) 
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,15 +109,14 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
 
-            <a class="collapse-item" href="education.php">Education</a>
-            <a class="collapse-item active" href="collectivite.php">Collectivité</a>
+            <a class="collapse-item active" href="education.php">Education</a>
+            <a class="collapse-item" href="collectivite.php">Collectivité</a>
             <a class="collapse-item" href="economie.php">Economie/Entreprises</a>
             <a class="collapse-item" href="touriste.php">Objets touristiques</a>
             <a class="collapse-item" href="individu.php">Individus/Ménages</a>
           </div>
         </div>
       </li>
-
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -101,32 +146,80 @@
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
 
-            </ul>
 
         </nav>
-
+        <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
+          <!-- Page Heading -->
+          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+          </div> -->
 
           <!-- Content Row -->
           <div class="row">
 
-            <!-- Earnings (Monthly) Card Example -->
-            <h1 class="h3 mb-2 text-gray-800">Questionnaire Collectivité</h1>
-            <p class="mb-4">Cette page contient un ensemble de sondages sur la collectivité Corse.</p>
-             
-                </div>
-              </div>
-            </div>
-          </div>
-
-        
-      </div>
+          <?php
+ 
+            $dataPoints = array(
+                array("label"=> "Ecole", "y"=> $array1[0]['value']),
+                array("label"=> "Université", "y"=> $array1[1]['value']),
+                array("label"=> "Lycée", "y"=> $array1[2]['value'])
+            );
+     
+                ?>
     
+                <script>
+                window.onload = function () {
+  
+                var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                    exportEnabled: true,
+                    title:{
+                        text: "Vous êtes gentils"
+                    },
+                    subtitles: [{
+                        text: "Très gentils"
+                    }],
+                    data: [{
+                        type: "pie",
+                        showInLegend: "true",
+                        legendText: "{label}",
+                        indexLabelFontSize: 16,
+                        indexLabel: "{label} - #percent%",
+                        yValueFormatString: "฿#,##0",
+                        dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+                    }]
+                });
+                chart.render();
+  
+                }
+                </script>
+
+                <body>
+                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                </body>
+                </html>      
+                            <select name="functionQuestion" class="mb-4">
+                            </select>
+                    
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+      
+      </div>
+      <!-- End of Main Content -->
+
+
     </div>
-   
+    <!-- End of Content Wrapper -->
+
   </div>
   <!-- End of Page Wrapper -->
 
@@ -135,7 +228,8 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
- 
+
+
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
