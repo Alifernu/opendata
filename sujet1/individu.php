@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Questionnaire baromètre</title>
+  <title>Questionnaire Education</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -40,7 +40,7 @@
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="index.html">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
@@ -63,11 +63,11 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
 
-            <a class="collapse-item" href="buttons.html">Education</a>
-            <a class="collapse-item" href="cards.html">Collectivité</a>
-            <a class="collapse-item" href="cards.html">Economie/Entreprises</a>
-            <a class="collapse-item" href="cards.html">Objets touristiques</a>
-            <a class="collapse-item" href="cards.html">Individus/Ménages</a>
+            <a class="collapse-item" href="education.php">Education</a>
+            <a class="collapse-item" href="collectivite.php">Collectivité</a>
+            <a class="collapse-item" href="economie.php">Economie/Entreprises</a>
+            <a class="collapse-item" href="touriste.php">Objets touristiques</a>
+            <a class="collapse-item active" href="individu.php">Individus/Ménages</a>
           </div>
         </div>
       </li>
